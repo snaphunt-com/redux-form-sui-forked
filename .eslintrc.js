@@ -20,5 +20,15 @@ module.exports = {
     // doesn't fail when using do expressions or optional chaining
     'no-unused-expressions': 'off',
     'babel/no-unused-expressions': 'error',
+    'jsx-a11y/label-has-for': [
+      2,
+      {
+        components: ['Label'],
+        required: {
+          some: ['nesting', 'id'],
+        },
+        allowChildren: false,
+      },
+    ],
   },
 };

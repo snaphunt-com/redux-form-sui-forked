@@ -41,6 +41,24 @@ module.exports = {
       commonjs: 'react-redux',
       amd: 'react-redux',
     },
+    'redux-form': {
+      root: 'ReduxForm',
+      commonjs2: 'redux-form',
+      commonjs: 'redux-form',
+      amd: 'redux-form',
+    },
+    'semantic-ui-react': {
+      root: 'SemanticUIReact',
+      commonjs2: 'semantic-ui-react',
+      commonjs: 'semantic-ui-react',
+      amd: 'semantic-ui-react',
+    },
+    'react-datepicker': {
+      root: 'ReactDatepicker',
+      commonjs2: 'react-datepicker',
+      commonjs: 'react-datepicker',
+      amd: 'react-datepicker',
+    },
   },
   plugins: [
     new webpack.EnvironmentPlugin({

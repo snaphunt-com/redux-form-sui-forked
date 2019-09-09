@@ -30,7 +30,7 @@ module.exports = {
       babel needs this for parsing but won't touch the syntax,
       webpack will handle the syntax.
     */
-    '@babel/plugin-syntax-dynamic-import'
+    '@babel/plugin-syntax-dynamic-import',
     ['@babel/transform-runtime', { useESModules: es }],
     'react-require',
 

@@ -32,6 +32,7 @@ const Select = ({ name, ...selectProps }) => {
           required,
           disabled,
           colspan,
+          dropdownProps,
         } = fieldProps;
 
         if (options?.length <= 0) {
@@ -51,6 +52,7 @@ const Select = ({ name, ...selectProps }) => {
             <SuiPopup
               trigger={
                 <SuiDropdown
+                  {...dropdownProps}
                   id={id || name}
                   options={options}
                   value={selected}

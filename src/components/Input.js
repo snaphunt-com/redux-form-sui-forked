@@ -28,7 +28,6 @@ const Input = ({ name, ...inputProps }) => {
           disabled,
           hidden,
           colspan,
-          ...props
         } = fieldProps;
         return (
           <SuiForm.Field
@@ -43,12 +42,7 @@ const Input = ({ name, ...inputProps }) => {
             </label>
             <SuiPopup
               trigger={
-                <SuiInput
-                  {...props}
-                  {...input}
-                  id={id || name}
-                  disabled={disabled}
-                />
+                <SuiInput {...input} id={id || name} disabled={disabled} />
               }
               content={error}
               style={{ opacity: !active && touched && !!error ? 0.7 : 0 }}

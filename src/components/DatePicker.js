@@ -49,7 +49,6 @@ const DatePicker = ({ name, ...datePickerProps }) => {
           required,
           disabled,
           colspan,
-          ...props
         } = fieldProps;
 
         return (
@@ -65,7 +64,6 @@ const DatePicker = ({ name, ...datePickerProps }) => {
             <SuiPopup
               trigger={
                 <ReactDatePicker
-                  {...props}
                   id={id || name}
                   selected={value}
                   onChange={onChange}

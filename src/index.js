@@ -21,14 +21,12 @@ const useReduxForm = memoize(({ layout, config }) => {
         if (component) {
           return createElement(component, {
             key: itemKey,
-            ...formProps,
             ...itemProps,
+            formProps,
           });
         }
         if (render) {
-          return (
-            <div key={itemKey}>{render({ ...formProps, ...itemProps })}</div>
-          );
+          return <div key={itemKey}>{render({ ...itemProps, formProps })}</div>;
         }
         return null;
       })}
@@ -67,14 +65,14 @@ const useReduxForm = memoize(({ layout, config }) => {
             if (component) {
               return createElement(component, {
                 key: controlProps.id || controlProps.name,
-                ...formProps,
                 ...controlProps,
+                formProps,
               });
             }
             if (render) {
               return (
                 <div key={controlProps.id || controlProps.name}>
-                  {render({ ...formProps, ...controlProps })}
+                  {render({ ...controlProps, formProps })}
                 </div>
               );
             }
@@ -112,8 +110,8 @@ const useReduxForm = memoize(({ layout, config }) => {
     sections.map(({ id: sectionKey, ...sectionProps }) =>
       createElement(renderSection, {
         key: sectionKey,
-        formProps,
         ...sectionProps,
+        formProps,
       }),
     );
   renderBody.defaultProps = {};
@@ -150,14 +148,12 @@ const useReduxForm = memoize(({ layout, config }) => {
         if (component) {
           return createElement(component, {
             key: itemKey,
-            ...formProps,
             ...itemProps,
+            formProps,
           });
         }
         if (render) {
-          return (
-            <div key={itemKey}>{render({ ...formProps, ...itemProps })}</div>
-          );
+          return <div key={itemKey}>{render({ ...itemProps, formProps })}</div>;
         }
         return null;
       })}

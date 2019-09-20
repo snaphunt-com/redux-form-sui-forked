@@ -34,7 +34,6 @@ const SelectGroup = ({ name, ...selectGroupProps }) => {
         compact,
         required,
         disabled,
-        ...props
       } = fieldProps;
 
       if (options?.length <= 0) {

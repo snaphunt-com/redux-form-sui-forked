@@ -30,6 +30,7 @@ const Select = ({ name, ...selectProps }) => {
           id,
           label,
           required,
+          disabled,
           colspan,
           ...props
         } = fieldProps;
@@ -42,6 +43,7 @@ const Select = ({ name, ...selectProps }) => {
           <SuiForm.Field
             error={touched && !!error}
             required={required}
+            disabled={disabled}
             width={colspan}
           >
             <label htmlFor={id || name} style={{ whiteSpace: 'pre' }}>
@@ -60,6 +62,7 @@ const Select = ({ name, ...selectProps }) => {
                   }
                   onBlur={onBlur}
                   selection
+                  disabled={disabled}
                 />
               }
               content={error}

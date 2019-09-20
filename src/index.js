@@ -54,7 +54,7 @@ const useReduxForm = memoize(({ layout, config }) => {
   };
 
   /* Section */
-  const renderSection = ({ name: sectionName, rows }) =>
+  const renderSection = ({ name: sectionName, rows, formProps }) =>
     (content =>
       sectionName ? (
         <FormSection name={sectionName}>{content}</FormSection>
@@ -67,13 +67,14 @@ const useReduxForm = memoize(({ layout, config }) => {
             if (component) {
               return createElement(component, {
                 key: controlProps.id || controlProps.name,
+                ...formProps,
                 ...controlProps,
               });
             }
             if (render) {
               return (
                 <div key={controlProps.id || controlProps.name}>
-                  {render({ ...controlProps })}
+                  {render({ ...formProps, ...controlProps })}
                 </div>
               );
             }
@@ -103,6 +104,7 @@ const useReduxForm = memoize(({ layout, config }) => {
         ).isRequired,
       }),
     ).isRequired,
+    formProps: PropTypes.object.isRequired, // eslint-disable-line
   };
 
   /* Body */
@@ -110,7 +112,7 @@ const useReduxForm = memoize(({ layout, config }) => {
     sections.map(({ id: sectionKey, ...sectionProps }) =>
       createElement(renderSection, {
         key: sectionKey,
-        ...formProps,
+        formProps,
         ...sectionProps,
       }),
     );
@@ -198,9 +200,18 @@ const useReduxForm = memoize(({ layout, config }) => {
             handleSubmit(e);
           }}
         >
-          {renderHeader({ ...layout.header, formProps })}
-          {renderBody({ ...layout.body, formProps })}
-          {renderFooter({ ...layout.footer, formProps })}
+          {renderHeader({
+            formProps: { disabled: formProps.submitting, ...formProps },
+            ...layout.header,
+          })}
+          {renderBody({
+            formProps: { disabled: formProps.submitting, ...formProps },
+            ...layout.body,
+          })}
+          {renderFooter({
+            formProps: { disabled: formProps.submitting, ...formProps },
+            ...layout.footer,
+          })}
         </SuiForm>
       </SuiContainer>
     );

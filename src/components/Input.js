@@ -25,6 +25,7 @@ const Input = ({ name, ...inputProps }) => {
           id,
           label,
           required,
+          disabled,
           hidden,
           colspan,
           ...props
@@ -33,6 +34,7 @@ const Input = ({ name, ...inputProps }) => {
           <SuiForm.Field
             error={touched && !!error}
             required={required}
+            disabled={disabled}
             width={colspan}
             style={{ opacity: hidden ? 0 : 1 }}
           >
@@ -40,7 +42,14 @@ const Input = ({ name, ...inputProps }) => {
               {label}
             </label>
             <SuiPopup
-              trigger={<SuiInput {...props} {...input} id={id || name} />}
+              trigger={
+                <SuiInput
+                  {...props}
+                  {...input}
+                  id={id || name}
+                  disabled={disabled}
+                />
+              }
               content={error}
               style={{ opacity: !active && touched && !!error ? 0.7 : 0 }}
               inverted

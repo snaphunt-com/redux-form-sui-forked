@@ -47,6 +47,7 @@ const DatePicker = ({ name, ...datePickerProps }) => {
           label,
           placeholder,
           required,
+          disabled,
           colspan,
           ...props
         } = fieldProps;
@@ -55,6 +56,7 @@ const DatePicker = ({ name, ...datePickerProps }) => {
           <SuiForm.Field
             error={touched && !!error}
             required={required}
+            disabled={disabled}
             width={colspan}
           >
             <label htmlFor={id || name} style={{ whiteSpace: 'pre' }}>
@@ -69,6 +71,7 @@ const DatePicker = ({ name, ...datePickerProps }) => {
                   onChange={onChange}
                   customInput={<CustomInput />}
                   placeholderText={placeholder}
+                  disabled={disabled}
                 />
               }
               content={error}

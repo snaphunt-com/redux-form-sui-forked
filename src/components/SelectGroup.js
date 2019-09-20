@@ -7,6 +7,8 @@ import {
 } from 'semantic-ui-react';
 import { Field } from 'redux-form';
 
+import './SelectGroup.scss';
+
 const SelectGroup = ({ name, ...selectGroupProps }) => {
   const render = useCallback(({ readonly, ...fieldProps }) => {
     const renderView = () => {
@@ -31,6 +33,7 @@ const SelectGroup = ({ name, ...selectGroupProps }) => {
         colspan,
         compact,
         required,
+        disabled,
         ...props
       } = fieldProps;
 
@@ -42,6 +45,7 @@ const SelectGroup = ({ name, ...selectGroupProps }) => {
         <SuiForm.Field
           error={touched && !!error}
           required={required}
+          disabled={disabled}
           width={colspan}
         >
           <label style={{ whiteSpace: 'pre' }}>{label}</label>
@@ -54,6 +58,7 @@ const SelectGroup = ({ name, ...selectGroupProps }) => {
                     type="button"
                     active={value === selected}
                     onClick={() => onChange({ options, selected: value })}
+                    disabled={disabled}
                   >
                     {text}
                   </SuiButton>

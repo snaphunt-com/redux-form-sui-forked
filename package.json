@@ -2,8 +2,8 @@
   "name": "redux-form-sui",
   "version": "0.1.5",
   "description": "A redux-form friendly semantic-ui component library",
-  "main": "src/index.js",
-  "module": "src/index.js",
+  "main": "build/lib/index.js",
+  "module": "build/es/index.js",
   "jsnext:main": "build/es/index.js",
   "unpkg": "build/umd/redux-form-sui.min.js",
   "publishConfig": {

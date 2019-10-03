@@ -12,11 +12,42 @@ import './SelectGroup.scss';
 const SelectGroup = ({ name, ...selectGroupProps }) => {
   const render = useCallback(({ readonly, ...fieldProps }) => {
     const renderView = () => {
-      // const {
-      //   input: { value },
-      //   label,
-      // } = props;
-      return null;
+      const {
+        input: {
+          value: { options, selected },
+          onFocus,
+          onChange,
+          onBlur,
+        },
+        id,
+        label,
+        colspan,
+        compact,
+        readonly,
+      } = fieldProps;
+
+      if (options?.length <= 0) {
+        throw new Error(`Expected options as an array but found: ${options}`);
+      }
+
+      return (
+        <SuiForm.Field width={colspan}>
+          <label style={{ whiteSpace: 'pre' }}>{label}</label>
+          <SuiButton.Group toggle fluid compact={compact}>
+            {options.map(({ key, value, text }) => (
+              <SuiButton
+                key={key}
+                type="button"
+                active={value === selected}
+                disabled={readonly}
+                className="readonly"
+              >
+                {text}
+              </SuiButton>
+            ))}
+          </SuiButton.Group>
+        </SuiForm.Field>
+      );
     };
 
     const renderEdit = () => {

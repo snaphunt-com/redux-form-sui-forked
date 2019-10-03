@@ -1,6 +1,6 @@
 {
   "name": "redux-form-sui",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "A redux-form friendly semantic-ui component library",
   "main": "build/lib/index.js",
   "module": "build/es/index.js",
@@ -94,6 +94,7 @@
   "dependencies": {
     "@babel/runtime": "^7.5.5",
     "fast-memoize": "^2.5.1",
+    "kickass-utilities": "^0.1.0",
     "prop-types": "^15.7.2",
     "ramda": "^0.26.1"
   },

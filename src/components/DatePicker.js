@@ -17,26 +17,55 @@ const DatePicker = ({ name, ...datePickerProps }) => {
       class CustomInput extends PureComponent {
         render() {
           const { value, onClick } = this.props;
-          const { placeholder } = fieldProps;
+          const {
+            meta: { touched, error, active },
+            placeholder,
+          } = fieldProps;
 
           return (
-            <SuiInput
-              fluid
-              icon="calendar"
-              placeholder={placeholder}
-              value={value}
-              onClick={onClick}
+            <SuiPopup
+              trigger={
+                <SuiInput
+                  fluid
+                  icon="calendar"
+                  placeholder={placeholder}
+                  value={value}
+                  onClick={readonly ? null : onClick}
+                  readonly={readonly}
+                />
+              }
+              content={error}
+              style={{ opacity: !active && touched && !!error ? 0.7 : 0 }}
+              inverted
             />
           );
         }
       }
 
       const renderView = () => {
-        // const {
-        //   input: { value },
-        //   label,
-        // } = props;
-        return null;
+        const {
+          input: { value },
+          id,
+          label,
+          placeholder,
+          readonly,
+          colspan,
+        } = fieldProps;
+
+        return (
+          <SuiForm.Field width={colspan}>
+            <label htmlFor={id || name} style={{ whiteSpace: 'pre' }}>
+              {label}
+            </label>
+            <ReactDatePicker
+              id={id || name}
+              selected={value}
+              customInput={<CustomInput />}
+              placeholderText={placeholder}
+              readonly={readonly}
+            />
+          </SuiForm.Field>
+        );
       };
 
       const renderEdit = () => {
@@ -49,6 +78,7 @@ const DatePicker = ({ name, ...datePickerProps }) => {
           required,
           disabled,
           colspan,
+          datePickerProps,
         } = fieldProps;
 
         return (
@@ -61,20 +91,14 @@ const DatePicker = ({ name, ...datePickerProps }) => {
             <label htmlFor={id || name} style={{ whiteSpace: 'pre' }}>
               {label}
             </label>
-            <SuiPopup
-              trigger={
-                <ReactDatePicker
-                  id={id || name}
-                  selected={value}
-                  onChange={onChange}
-                  customInput={<CustomInput />}
-                  placeholderText={placeholder}
-                  disabled={disabled}
-                />
-              }
-              content={error}
-              style={{ opacity: !active && touched && !!error ? 0.7 : 0 }}
-              inverted
+            <ReactDatePicker
+              id={id || name}
+              selected={value}
+              onChange={onChange}
+              customInput={<CustomInput />}
+              placeholderText={placeholder}
+              disabled={disabled}
+              {...datePickerProps}
             />
           </SuiForm.Field>
         );

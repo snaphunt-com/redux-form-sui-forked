@@ -1,3 +1,12 @@
 .ui.toggle.buttons .ui.button {
-  font-weight: normal;
+  font-weight: normal !important;
+}
+
+.ui.toggle.buttons .ui.button.readonly {
+  cursor: default !important;
+}
+
+.ui.toggle.buttons .ui.button.readonly:not(.active) {
+  background-color: #e0e1de !important;
+  color: rgba(0, 0, 0, 0.6) !important;
 }

@@ -11,11 +11,23 @@ const Input = ({ name, ...inputProps }) => {
   const render = useCallback(
     ({ readonly, ...fieldProps }) => {
       const renderView = () => {
-        // const {
-        //   input: { value },
-        //   label,
-        // } = props;
-        return null;
+        const {
+          input: { value },
+          id,
+          label,
+          readonly,
+          hidden,
+          colspan,
+        } = fieldProps;
+
+        return (
+          <SuiForm.Field width={colspan} style={{ opacity: hidden ? 0 : 1 }}>
+            <label htmlFor={id || name} style={{ whiteSpace: 'pre' }}>
+              {label}
+            </label>
+            <SuiInput id={id || name} value={value} readonly={readonly} />
+          </SuiForm.Field>
+        );
       };
 
       const renderEdit = () => {
@@ -29,6 +41,7 @@ const Input = ({ name, ...inputProps }) => {
           hidden,
           colspan,
         } = fieldProps;
+
         return (
           <SuiForm.Field
             error={touched && !!error}

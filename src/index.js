@@ -21,12 +21,23 @@ const useReduxForm = memoize(({ layout, config }) => {
         if (component) {
           return createElement(component, {
             key: itemKey,
+            disabled: formProps.disabled,
+            readonly: formProps.readonly,
             ...itemProps,
             formProps,
           });
         }
         if (render) {
-          return <div key={itemKey}>{render({ ...itemProps, formProps })}</div>;
+          return (
+            <div key={itemKey}>
+              {render({
+                disabled: formProps.disabled,
+                readonly: formProps.readonly,
+                ...itemProps,
+                formProps,
+              })}
+            </div>
+          );
         }
         return null;
       })}
@@ -65,6 +76,8 @@ const useReduxForm = memoize(({ layout, config }) => {
             if (component) {
               return createElement(component, {
                 key: controlProps.id || controlProps.name,
+                disabled: formProps.disabled,
+                readonly: formProps.readonly,
                 ...controlProps,
                 formProps,
               });
@@ -72,7 +85,12 @@ const useReduxForm = memoize(({ layout, config }) => {
             if (render) {
               return (
                 <div key={controlProps.id || controlProps.name}>
-                  {render({ ...controlProps, formProps })}
+                  {render({
+                    disabled: formProps.disabled,
+                    readonly: formProps.readonly,
+                    ...controlProps,
+                    formProps,
+                  })}
                 </div>
               );
             }
@@ -148,12 +166,23 @@ const useReduxForm = memoize(({ layout, config }) => {
         if (component) {
           return createElement(component, {
             key: itemKey,
+            disabled: formProps.disabled,
+            readonly: formProps.readonly,
             ...itemProps,
             formProps,
           });
         }
         if (render) {
-          return <div key={itemKey}>{render({ ...itemProps, formProps })}</div>;
+          return (
+            <div key={itemKey}>
+              {render({
+                disabled: formProps.disabled,
+                readonly: formProps.readonly,
+                ...itemProps,
+                formProps,
+              })}
+            </div>
+          );
         }
         return null;
       })}
@@ -197,15 +226,24 @@ const useReduxForm = memoize(({ layout, config }) => {
           }}
         >
           {renderHeader({
-            formProps: { disabled: formProps.submitting, ...formProps },
+            formProps: {
+              ...formProps,
+              disabled: formProps.submitting || formProps.disabled,
+            },
             ...layout.header,
           })}
           {renderBody({
-            formProps: { disabled: formProps.submitting, ...formProps },
+            formProps: {
+              ...formProps,
+              disabled: formProps.submitting || formProps.disabled,
+            },
             ...layout.body,
           })}
           {renderFooter({
-            formProps: { disabled: formProps.submitting, ...formProps },
+            formProps: {
+              ...formProps,
+              disabled: formProps.submitting || formProps.disabled,
+            },
             ...layout.footer,
           })}
         </SuiForm>

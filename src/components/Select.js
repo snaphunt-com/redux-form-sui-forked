@@ -6,16 +6,46 @@ import {
   Popup as SuiPopup,
 } from 'semantic-ui-react';
 import { Field } from 'redux-form';
+import { switchProp } from 'kickass-utilities';
+
+import './Select.scss';
 
 const Select = ({ name, ...selectProps }) => {
   const render = useCallback(
     ({ readonly, ...fieldProps }) => {
       const renderView = () => {
-        // const {
-        //   input: { value },
-        //   label,
-        // } = props;
-        return null;
+        const {
+          input: {
+            value: { options, selected },
+          },
+          id,
+          label,
+          readonly,
+          colspan,
+          dropdownProps,
+        } = fieldProps;
+
+        if (options?.length <= 0) {
+          throw new Error(`Expected options as an array but found: ${options}`);
+        }
+
+        return (
+          <SuiForm.Field width={colspan}>
+            <label htmlFor={id || name} style={{ whiteSpace: 'pre' }}>
+              {label}
+            </label>
+            <SuiDropdown
+              {...dropdownProps}
+              id={id || name}
+              value={selected}
+              options={options}
+              selection
+              open={false}
+              disabled={readonly}
+              className="readonly"
+            />
+          </SuiForm.Field>
+        );
       };
 
       const renderEdit = () => {

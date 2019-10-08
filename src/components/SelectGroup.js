@@ -10,101 +10,106 @@ import { Field } from 'redux-form';
 import './SelectGroup.scss';
 
 const SelectGroup = ({ name, ...selectGroupProps }) => {
-  const render = useCallback(({ readonly, ...fieldProps }) => {
-    const renderView = () => {
-      const {
-        input: {
-          value: { options, selected },
-          onFocus,
-          onChange,
-          onBlur,
-        },
-        id,
-        label,
-        colspan,
-        compact,
-        readonly,
-      } = fieldProps;
+  const render = useCallback(
+    ({ readonly, ...fieldProps }) => {
+      const renderView = () => {
+        const {
+          input: {
+            value: { options, selected },
+            onFocus,
+            onChange,
+            onBlur,
+          },
+          id,
+          label,
+          colspan,
+          compact,
+        } = fieldProps;
 
-      if (options?.length <= 0) {
-        throw new Error(`Expected options as an array but found: ${options}`);
-      }
+        if (!options?.length) {
+          throw new Error(
+            `Field ${name}. Expected options as an array but found: ${options}`,
+          );
+        }
 
-      return (
-        <SuiForm.Field width={colspan}>
-          <label style={{ whiteSpace: 'pre' }}>{label}</label>
-          <SuiButton.Group toggle fluid compact={compact}>
-            {options.map(({ key, value, text }) => (
-              <SuiButton
-                key={key}
-                type="button"
-                active={value === selected}
-                disabled={readonly}
-                className="readonly"
-              >
-                {text}
-              </SuiButton>
-            ))}
-          </SuiButton.Group>
-        </SuiForm.Field>
-      );
-    };
+        return (
+          <SuiForm.Field width={colspan}>
+            <label style={{ whiteSpace: 'pre' }}>{label}</label>
+            <SuiButton.Group toggle fluid compact={compact}>
+              {options.map(({ key, value, text }) => (
+                <SuiButton
+                  key={key}
+                  type="button"
+                  active={value === selected}
+                  className="readonly"
+                >
+                  {text}
+                </SuiButton>
+              ))}
+            </SuiButton.Group>
+          </SuiForm.Field>
+        );
+      };
 
-    const renderEdit = () => {
-      const {
-        input: {
-          value: { options, selected },
-          onFocus,
-          onChange,
-          onBlur,
-        },
-        meta: { touched, error, active },
-        id,
-        label,
-        colspan,
-        compact,
-        required,
-        disabled,
-      } = fieldProps;
+      const renderEdit = () => {
+        const {
+          input: {
+            value: { options, selected },
+            onFocus,
+            onChange,
+            onBlur,
+          },
+          meta: { touched, error, active },
+          id,
+          label,
+          colspan,
+          compact,
+          required,
+          disabled,
+        } = fieldProps;
 
-      if (options?.length <= 0) {
-        throw new Error(`Expected options as an array but found: ${options}`);
-      }
+        if (!options?.length) {
+          throw new Error(
+            `Field ${name}. Expected options as an array but found: ${options}`,
+          );
+        }
 
-      return (
-        <SuiForm.Field
-          error={touched && !!error}
-          required={required}
-          disabled={disabled}
-          width={colspan}
-        >
-          <label style={{ whiteSpace: 'pre' }}>{label}</label>
-          <SuiPopup
-            trigger={
-              <SuiButton.Group toggle fluid compact={compact}>
-                {options.map(({ key, value, text }) => (
-                  <SuiButton
-                    key={key}
-                    type="button"
-                    active={value === selected}
-                    onClick={() => onChange({ options, selected: value })}
-                    disabled={disabled}
-                  >
-                    {text}
-                  </SuiButton>
-                ))}
-              </SuiButton.Group>
-            }
-            content={error}
-            style={{ opacity: !active && touched && !!error ? 0.7 : 0 }}
-            inverted
-          />
-        </SuiForm.Field>
-      );
-    };
+        return (
+          <SuiForm.Field
+            error={touched && !!error}
+            required={required}
+            disabled={disabled}
+            width={colspan}
+          >
+            <label style={{ whiteSpace: 'pre' }}>{label}</label>
+            <SuiPopup
+              trigger={
+                <SuiButton.Group toggle fluid compact={compact}>
+                  {options.map(({ key, value, text }) => (
+                    <SuiButton
+                      key={key}
+                      type="button"
+                      active={value === selected}
+                      onClick={() => onChange({ options, selected: value })}
+                      disabled={disabled}
+                    >
+                      {text}
+                    </SuiButton>
+                  ))}
+                </SuiButton.Group>
+              }
+              content={error}
+              style={{ opacity: !active && touched && !!error ? 0.7 : 0 }}
+              inverted
+            />
+          </SuiForm.Field>
+        );
+      };
 
-    return readonly ? renderView() : renderEdit();
-  }, []);
+      return readonly ? renderView() : renderEdit();
+    },
+    [name],
+  );
 
   return <Field {...selectGroupProps} name={name} component={render} />;
 };

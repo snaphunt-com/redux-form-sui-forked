@@ -6,7 +6,6 @@ import {
   Popup as SuiPopup,
 } from 'semantic-ui-react';
 import { Field } from 'redux-form';
-import { switchProp } from 'kickass-utilities';
 
 import './Select.scss';
 
@@ -20,13 +19,14 @@ const Select = ({ name, ...selectProps }) => {
           },
           id,
           label,
-          readonly,
           colspan,
           dropdownProps,
         } = fieldProps;
 
-        if (options?.length <= 0) {
-          throw new Error(`Expected options as an array but found: ${options}`);
+        if (!options?.length) {
+          throw new Error(
+            `Field ${name}. Expected options as an array but found: ${options}`,
+          );
         }
 
         return (
@@ -41,7 +41,6 @@ const Select = ({ name, ...selectProps }) => {
               options={options}
               selection
               open={false}
-              disabled={readonly}
               className="readonly"
             />
           </SuiForm.Field>
@@ -65,8 +64,10 @@ const Select = ({ name, ...selectProps }) => {
           dropdownProps,
         } = fieldProps;
 
-        if (options?.length <= 0) {
-          throw new Error(`Expected options as an array but found: ${options}`);
+        if (!options?.length) {
+          throw new Error(
+            `Field ${name}. Expected options as an array but found: ${options}`,
+          );
         }
 
         return (

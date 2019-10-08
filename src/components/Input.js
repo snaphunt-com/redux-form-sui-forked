@@ -15,7 +15,6 @@ const Input = ({ name, ...inputProps }) => {
           input: { value },
           id,
           label,
-          readonly,
           hidden,
           colspan,
         } = fieldProps;

@@ -13,8 +13,9 @@ const useReduxForm = memoize(({ layout, config }) => {
   }
   /* Header */
   const renderHeader = ({ items, style, className, formProps }) => (
+    // TODO: Open wrapper for Header
     <div
-      style={{ display: 'flex', marginBottom: 20, ...style }}
+      style={{ display: 'flex', marginBottom: 50, ...style }}
       className={className}
     >
       {items.map(({ id: itemKey, component, render, ...itemProps }) => {
@@ -158,8 +159,9 @@ const useReduxForm = memoize(({ layout, config }) => {
 
   /* Footer */
   const renderFooter = ({ items, style, className, formProps }) => (
+    // TODO: Open wrapper for Header
     <div
-      style={{ display: 'flex', marginBottom: 20, ...style }}
+      style={{ display: 'flex', marginTop: 50, ...style }}
       className={className}
     >
       {items.map(({ id: itemKey, component, render, ...itemProps }) => {

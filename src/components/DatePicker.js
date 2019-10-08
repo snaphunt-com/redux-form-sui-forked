@@ -48,7 +48,6 @@ const DatePicker = ({ name, ...datePickerProps }) => {
           id,
           label,
           placeholder,
-          readonly,
           colspan,
         } = fieldProps;
 

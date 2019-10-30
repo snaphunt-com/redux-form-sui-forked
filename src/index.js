@@ -209,9 +209,15 @@ const useReduxForm = memoize(({ layout, config }) => {
     formProps: PropTypes.object.isRequired, // eslint-disable-line
   };
 
-  const form = ({ handleSubmit, autoComplete, ...formProps }) => {
+  const form = ({
+    handleSubmit,
+    autoComplete,
+    formProps: suiFormProps,
+    ...formProps
+  }) => {
     return (
       <SuiForm
+        {...suiFormProps}
         autoComplete={autoComplete}
         onSubmit={e => {
           // TODO: Check if we this problem with Semantic-UI
@@ -252,12 +258,15 @@ const useReduxForm = memoize(({ layout, config }) => {
   };
   form.defaultProps = {
     autoComplete: 'off',
+    formProps: {},
   };
   form.propTypes = {
     /* redux-form */
     handleSubmit: PropTypes.func.isRequired,
     /* direct */
     autoComplete: PropTypes.string,
+    /* props for SuiForm */
+    formProps: PropTypes.object, // eslint-disable-line
   };
 
   return reduxForm(config)(form);

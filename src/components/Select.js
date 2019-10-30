@@ -9,7 +9,7 @@ import { Field } from 'redux-form';
 
 import './Select.scss';
 
-const Select = ({ name, ...selectProps }) => {
+const Select = ({ name, ...props }) => {
   const render = useCallback(
     ({ readonly, ...fieldProps }) => {
       const renderView = () => {
@@ -109,7 +109,7 @@ const Select = ({ name, ...selectProps }) => {
     [name],
   );
 
-  return <Field {...selectProps} name={name} component={render} />;
+  return <Field {...props} name={name} component={render} />;
 };
 
 Select.defaultProps = {

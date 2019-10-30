@@ -7,7 +7,7 @@ import {
 } from 'semantic-ui-react';
 import { Field } from 'redux-form';
 
-const Input = ({ name, ...inputProps }) => {
+const Input = ({ name, ...props }) => {
   const render = useCallback(
     ({ readonly, ...fieldProps }) => {
       const renderView = () => {
@@ -69,7 +69,7 @@ const Input = ({ name, ...inputProps }) => {
     [name],
   );
 
-  return <Field {...inputProps} name={name} component={render} />;
+  return <Field {...props} name={name} component={render} />;
 };
 
 Input.defaultProps = {

@@ -9,16 +9,13 @@ import { Field } from 'redux-form';
 
 import './SelectGroup.scss';
 
-const SelectGroup = ({ name, ...selectGroupProps }) => {
+const SelectGroup = ({ name, ...props }) => {
   const render = useCallback(
     ({ readonly, ...fieldProps }) => {
       const renderView = () => {
         const {
           input: {
             value: { options, selected },
-            onFocus,
-            onChange,
-            onBlur,
           },
           id,
           label,
@@ -111,7 +108,7 @@ const SelectGroup = ({ name, ...selectGroupProps }) => {
     [name],
   );
 
-  return <Field {...selectGroupProps} name={name} component={render} />;
+  return <Field {...props} name={name} component={render} />;
 };
 
 SelectGroup.defaultProps = {

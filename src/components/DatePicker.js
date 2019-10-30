@@ -11,36 +11,68 @@ import { Field } from 'redux-form';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DatePicker.scss';
 
-const DatePicker = ({ name, ...datePickerProps }) => {
-  const render = useCallback(
-    ({ readonly, ...fieldProps }) => {
-      class CustomInput extends PureComponent {
-        render() {
-          const { value, onClick } = this.props;
-          const {
-            meta: { touched, error, active },
-            placeholder,
-          } = fieldProps;
+class CustomInput extends PureComponent {
+  static propTypes = {
+    value: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
+    fieldProps: PropTypes.shape({
+      input: PropTypes.shape({
+        onFocus: PropTypes.func.isRequired,
+        onBlur: PropTypes.func.isRequired,
+      }).isRequired,
+      meta: PropTypes.shape({
+        touched: PropTypes.bool.isRequired,
+        error: PropTypes.string.isRequired,
+        active: PropTypes.bool.isRequired,
+      }).isRequired,
+      readonly: PropTypes.bool,
+      placeholder: PropTypes.string,
+    }).isRequired,
+  };
 
-          return (
-            <SuiPopup
-              trigger={
-                <SuiInput
-                  fluid
-                  icon="calendar"
-                  placeholder={placeholder}
-                  value={value}
-                  onClick={readonly ? null : onClick}
-                  readonly={readonly}
-                />
+  render() {
+    const { value, onClick, fieldProps } = this.props;
+    const {
+      input: { onFocus, onBlur },
+      meta: { touched, error, active },
+      readonly,
+      placeholder,
+    } = fieldProps;
+
+    return (
+      <SuiPopup
+        trigger={
+          <SuiInput
+            fluid
+            icon="calendar"
+            placeholder={placeholder}
+            value={value}
+            onFocus={() => {
+              if (!readonly) {
+                onFocus?.();
+                onClick?.();
               }
-              content={error}
-              style={{ opacity: !active && touched && !!error ? 0.7 : 0 }}
-              inverted
-            />
-          );
+            }}
+            onBlur={() => {
+              if (!readonly) {
+                onBlur?.(); // * send undefined to keep existing value in redux-form
+              }
+            }}
+            readonly={readonly}
+          />
         }
-      }
+        content={error}
+        style={{ opacity: !active && touched && !!error ? 0.7 : 0 }}
+        inverted
+      />
+    );
+  }
+}
+
+const DatePicker = ({ name, ...props }) => {
+  const render = useCallback(
+    fieldProps => {
+      const { readonly } = fieldProps;
 
       const renderView = () => {
         const {
@@ -59,7 +91,7 @@ const DatePicker = ({ name, ...datePickerProps }) => {
             <ReactDatePicker
               id={id || name}
               selected={value}
-              customInput={<CustomInput />}
+              customInput={<CustomInput fieldProps={fieldProps} />}
               placeholderText={placeholder}
               readonly={readonly}
             />
@@ -69,8 +101,8 @@ const DatePicker = ({ name, ...datePickerProps }) => {
 
       const renderEdit = () => {
         const {
-          input: { value, onFocus, onChange, onBlur },
-          meta: { touched, error, active },
+          input: { value, onChange },
+          meta: { touched, error },
           id,
           label,
           placeholder,
@@ -94,7 +126,7 @@ const DatePicker = ({ name, ...datePickerProps }) => {
               id={id || name}
               selected={value}
               onChange={onChange}
-              customInput={<CustomInput />}
+              customInput={<CustomInput fieldProps={fieldProps} />}
               placeholderText={placeholder}
               disabled={disabled}
               {...datePickerProps}
@@ -108,7 +140,7 @@ const DatePicker = ({ name, ...datePickerProps }) => {
     [name],
   );
 
-  return <Field {...datePickerProps} name={name} component={render} />;
+  return <Field {...props} name={name} component={render} />;
 };
 
 DatePicker.defaultProps = {

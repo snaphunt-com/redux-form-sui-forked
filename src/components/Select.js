@@ -11,7 +11,7 @@ import './Select.scss';
 
 const Select = ({ name, ...props }) => {
   const render = useCallback(
-    ({ readonly, ...fieldProps }) => {
+    ({ readonly, size, ...fieldProps }) => {
       const renderView = () => {
         const {
           input: {
@@ -41,7 +41,7 @@ const Select = ({ name, ...props }) => {
               options={options}
               selection
               open={false}
-              className="readonly"
+              className={`readonly ${size}`}
             />
           </SuiForm.Field>
         );
@@ -95,6 +95,7 @@ const Select = ({ name, ...props }) => {
                   onBlur={() => onBlur()}
                   selection
                   disabled={disabled}
+                  className={size}
                 />
               }
               content={error}
@@ -126,6 +127,7 @@ Select.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
+  size: PropTypes.string.isRequired,
 };
 
 export default Select;

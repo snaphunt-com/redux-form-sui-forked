@@ -11,7 +11,7 @@ import './SelectGroup.scss';
 
 const SelectGroup = ({ name, ...props }) => {
   const render = useCallback(
-    ({ readonly, ...fieldProps }) => {
+    ({ readonly, size, ...fieldProps }) => {
       const renderView = () => {
         const {
           input: {
@@ -32,7 +32,7 @@ const SelectGroup = ({ name, ...props }) => {
         return (
           <SuiForm.Field width={colspan}>
             <label style={{ whiteSpace: 'pre' }}>{label}</label>
-            <SuiButton.Group toggle fluid compact={compact}>
+            <SuiButton.Group toggle fluid compact={compact} size={size}>
               {options.map(({ key, value, text }) => (
                 <SuiButton
                   key={key}
@@ -81,7 +81,7 @@ const SelectGroup = ({ name, ...props }) => {
             <label style={{ whiteSpace: 'pre' }}>{label}</label>
             <SuiPopup
               trigger={
-                <SuiButton.Group toggle fluid compact={compact}>
+                <SuiButton.Group toggle fluid compact={compact} size={size}>
                   {options.map(({ key, value, text }) => (
                     <SuiButton
                       key={key}
@@ -124,6 +124,7 @@ SelectGroup.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
+  size: PropTypes.string.isRequired,
 };
 
 export default SelectGroup;

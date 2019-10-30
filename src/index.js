@@ -24,6 +24,7 @@ const useReduxForm = memoize(({ layout, config }) => {
             key: itemKey,
             disabled: formProps.disabled,
             readonly: formProps.readonly,
+            size: formProps.size,
             ...itemProps,
             formProps,
           });
@@ -34,6 +35,7 @@ const useReduxForm = memoize(({ layout, config }) => {
               {render({
                 disabled: formProps.disabled,
                 readonly: formProps.readonly,
+                size: formProps.size,
                 ...itemProps,
                 formProps,
               })}
@@ -79,6 +81,7 @@ const useReduxForm = memoize(({ layout, config }) => {
                 key: controlProps.id || controlProps.name,
                 disabled: formProps.disabled,
                 readonly: formProps.readonly,
+                size: formProps.size,
                 ...controlProps,
                 formProps,
               });
@@ -89,6 +92,7 @@ const useReduxForm = memoize(({ layout, config }) => {
                   {render({
                     disabled: formProps.disabled,
                     readonly: formProps.readonly,
+                    size: formProps.size,
                     ...controlProps,
                     formProps,
                   })}
@@ -170,6 +174,7 @@ const useReduxForm = memoize(({ layout, config }) => {
             key: itemKey,
             disabled: formProps.disabled,
             readonly: formProps.readonly,
+            size: formProps.size,
             ...itemProps,
             formProps,
           });
@@ -180,6 +185,7 @@ const useReduxForm = memoize(({ layout, config }) => {
               {render({
                 disabled: formProps.disabled,
                 readonly: formProps.readonly,
+                size: formProps.size,
                 ...itemProps,
                 formProps,
               })}
@@ -258,6 +264,7 @@ const useReduxForm = memoize(({ layout, config }) => {
   };
   form.defaultProps = {
     autoComplete: 'off',
+    size: 'large',
     formProps: {},
   };
   form.propTypes = {
@@ -265,6 +272,7 @@ const useReduxForm = memoize(({ layout, config }) => {
     handleSubmit: PropTypes.func.isRequired,
     /* direct */
     autoComplete: PropTypes.string,
+    size: PropTypes.string,
     /* props for SuiForm */
     formProps: PropTypes.object, // eslint-disable-line
   };

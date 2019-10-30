@@ -27,6 +27,7 @@ class CustomInput extends PureComponent {
       }).isRequired,
       readonly: PropTypes.bool,
       placeholder: PropTypes.string,
+      size: PropTypes.string.isRequired,
     }).isRequired,
   };
 
@@ -37,6 +38,7 @@ class CustomInput extends PureComponent {
       meta: { touched, error, active },
       readonly,
       placeholder,
+      size,
     } = fieldProps;
 
     return (
@@ -59,6 +61,7 @@ class CustomInput extends PureComponent {
               }
             }}
             readonly={readonly}
+            size={size}
           />
         }
         content={error}
@@ -156,6 +159,7 @@ DatePicker.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
+  size: PropTypes.string.isRequired,
 };
 
 export default DatePicker;

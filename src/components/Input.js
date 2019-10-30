@@ -9,7 +9,7 @@ import { Field } from 'redux-form';
 
 const Input = ({ name, ...props }) => {
   const render = useCallback(
-    ({ readonly, ...fieldProps }) => {
+    ({ readonly, size, ...fieldProps }) => {
       const renderView = () => {
         const {
           input: { value },
@@ -24,7 +24,12 @@ const Input = ({ name, ...props }) => {
             <label htmlFor={id || name} style={{ whiteSpace: 'pre' }}>
               {label}
             </label>
-            <SuiInput id={id || name} value={value} readonly={readonly} />
+            <SuiInput
+              id={id || name}
+              value={value}
+              readonly={readonly}
+              size={size}
+            />
           </SuiForm.Field>
         );
       };
@@ -54,7 +59,12 @@ const Input = ({ name, ...props }) => {
             </label>
             <SuiPopup
               trigger={
-                <SuiInput {...input} id={id || name} disabled={disabled} />
+                <SuiInput
+                  {...input}
+                  id={id || name}
+                  disabled={disabled}
+                  size={size}
+                />
               }
               content={error}
               style={{ opacity: !active && touched && !!error ? 0.7 : 0 }}
@@ -85,6 +95,7 @@ Input.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
+  size: PropTypes.string.isRequired,
 };
 
 export default Input;

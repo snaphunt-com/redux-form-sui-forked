@@ -91,7 +91,8 @@ const Select = ({ name, ...props }) => {
                   onChange={(_, { value }) =>
                     onChange({ options, selected: value })
                   }
-                  onBlur={onBlur}
+                  // * send undefined to keep existing value in redux-form
+                  onBlur={() => onBlur()}
                   selection
                   disabled={disabled}
                 />

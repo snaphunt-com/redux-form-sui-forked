@@ -2,7 +2,7 @@
 import { createElement } from 'react';
 import PropTypes from 'prop-types';
 import { FormSection, reduxForm } from 'redux-form';
-import { Container as SuiContainer, Form as SuiForm } from 'semantic-ui-react';
+import { Form as SuiForm } from 'semantic-ui-react';
 import memoize from 'fast-memoize';
 
 const useReduxForm = memoize(({ layout, config }) => {
@@ -211,45 +211,43 @@ const useReduxForm = memoize(({ layout, config }) => {
 
   const form = ({ handleSubmit, autoComplete, ...formProps }) => {
     return (
-      <SuiContainer>
-        <SuiForm
-          autoComplete={autoComplete}
-          onSubmit={e => {
-            // TODO: Check if we this problem with Semantic-UI
-            /* NOTE: This to prevent triggering submission of child form
+      <SuiForm
+        autoComplete={autoComplete}
+        onSubmit={e => {
+          // TODO: Check if we this problem with Semantic-UI
+          /* NOTE: This to prevent triggering submission of child form
               from triggering submission of parent form too, if any.
               In React, event propagates along the React hierarchy, not DOM.
               child <form> is not part of parent <SuiForm> DOM hierarchy
               created by material-ui's Modal, which probably uses React Portal.
               Ref: https://github.com/erikras/redux-form/issues/3701
             */
-            e.stopPropagation();
-            handleSubmit(e);
-          }}
-        >
-          {renderHeader({
-            formProps: {
-              ...formProps,
-              disabled: formProps.submitting || formProps.disabled,
-            },
-            ...layout.header,
-          })}
-          {renderBody({
-            formProps: {
-              ...formProps,
-              disabled: formProps.submitting || formProps.disabled,
-            },
-            ...layout.body,
-          })}
-          {renderFooter({
-            formProps: {
-              ...formProps,
-              disabled: formProps.submitting || formProps.disabled,
-            },
-            ...layout.footer,
-          })}
-        </SuiForm>
-      </SuiContainer>
+          e.stopPropagation();
+          handleSubmit(e);
+        }}
+      >
+        {renderHeader({
+          formProps: {
+            ...formProps,
+            disabled: formProps.submitting || formProps.disabled,
+          },
+          ...layout.header,
+        })}
+        {renderBody({
+          formProps: {
+            ...formProps,
+            disabled: formProps.submitting || formProps.disabled,
+          },
+          ...layout.body,
+        })}
+        {renderFooter({
+          formProps: {
+            ...formProps,
+            disabled: formProps.submitting || formProps.disabled,
+          },
+          ...layout.footer,
+        })}
+      </SuiForm>
     );
   };
   form.defaultProps = {

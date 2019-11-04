@@ -84,6 +84,7 @@ const DatePicker = ({ name, ...props }) => {
           label,
           placeholder,
           colspan,
+          datePickerProps,
         } = fieldProps;
 
         return (
@@ -97,6 +98,7 @@ const DatePicker = ({ name, ...props }) => {
               customInput={<CustomInput fieldProps={fieldProps} />}
               placeholderText={placeholder}
               readonly={readonly}
+              {...datePickerProps}
             />
           </SuiForm.Field>
         );

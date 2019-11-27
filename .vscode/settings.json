@@ -1,6 +1,3 @@
 {
-  // * We don't use prettier-eslint,
-  // * but use eslint with prettier rule.
-  "prettier.eslintIntegration": false,
   "editor.formatOnSave": true
 }

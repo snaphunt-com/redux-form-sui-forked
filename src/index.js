@@ -88,15 +88,22 @@ const useReduxForm = memoize(({ layout, config }) => {
             }
             if (render) {
               return (
-                <div key={controlProps.id || controlProps.name}>
-                  {render({
-                    disabled: formProps.disabled,
-                    readonly: formProps.readonly,
-                    size: formProps.size,
-                    ...controlProps,
-                    formProps,
-                  })}
-                </div>
+                // FIXME Use material-ui Grid
+                // ? The element with prop colspan
+                // ? must be a direct child of SuiForm.Group
+                // ? for the layout to take effect.
+                // ? We have no choice but require
+                // ? user to supply the prop 'key' themselves
+                // <div key={controlProps.id || controlProps.name}>
+                render({
+                  key: controlProps.id || controlProps.name,
+                  disabled: formProps.disabled,
+                  readonly: formProps.readonly,
+                  size: formProps.size,
+                  ...controlProps,
+                  formProps,
+                })
+                // </div>
               );
             }
             throw new Error('Must provide either component or render');

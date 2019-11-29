@@ -137,13 +137,35 @@ const useReduxForm = memoize(({ layout, config }) => {
 
   /* Body */
   const renderBody = ({ sections, formProps }) =>
-    sections.map(({ id: sectionKey, ...sectionProps }) =>
-      createElement(renderSection, {
-        key: sectionKey,
+    sections.map(({ component, render, ...sectionProps }) => {
+      if (component) {
+        return createElement(
+          component,
+          {
+            key: sectionProps.id || sectionProps.name,
+            ...sectionProps,
+            formProps,
+          },
+          renderSection({ ...sectionProps, formProps }),
+        );
+      }
+      if (render) {
+        return (
+          <div key={sectionProps.id || sectionProps.name}>
+            {render({
+              ...sectionProps,
+              formProps,
+              children: renderSection({ ...sectionProps, formProps }),
+            })}
+          </div>
+        );
+      }
+      return createElement(renderSection, {
+        key: sectionProps.id || sectionProps.name,
         ...sectionProps,
         formProps,
-      }),
-    );
+      });
+    });
   renderBody.defaultProps = {};
   renderBody.propTypes = {
     sections: PropTypes.arrayOf(

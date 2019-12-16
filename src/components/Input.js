@@ -17,6 +17,7 @@ const Input = ({ name, ...props }) => {
           label,
           hidden,
           colspan,
+          inputProps,
         } = fieldProps;
 
         return (
@@ -25,6 +26,7 @@ const Input = ({ name, ...props }) => {
               {label}
             </label>
             <SuiInput
+              {...inputProps}
               id={id || name}
               value={value}
               readonly={readonly}
@@ -44,6 +46,7 @@ const Input = ({ name, ...props }) => {
           disabled,
           hidden,
           colspan,
+          inputProps,
         } = fieldProps;
 
         return (
@@ -60,6 +63,7 @@ const Input = ({ name, ...props }) => {
             <SuiPopup
               trigger={
                 <SuiInput
+                  {...inputProps}
                   {...input}
                   id={id || name}
                   disabled={disabled}
@@ -87,6 +91,7 @@ Input.defaultProps = {
   label: '',
   disabled: false,
   readonly: false,
+  inputProps: {},
 };
 
 Input.propTypes = {
@@ -95,7 +100,10 @@ Input.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
-  size: PropTypes.string.isRequired,
+  inputProps: PropTypes.shape({
+    placeholder: PropTypes.string,
+    size: PropTypes.string,
+  }),
 };
 
 export default Input;

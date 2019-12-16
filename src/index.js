@@ -248,11 +248,17 @@ const useReduxForm = memoize(({ layout, config }) => {
     handleSubmit,
     autoComplete,
     formProps: suiFormProps,
+    style,
+    css,
+    className,
     ...formProps
   }) => {
     return (
       <SuiForm
         {...suiFormProps}
+        css={css}
+        style={style}
+        className={className}
         autoComplete={autoComplete}
         onSubmit={e => {
           // TODO: Check if we this problem with Semantic-UI
@@ -267,27 +273,30 @@ const useReduxForm = memoize(({ layout, config }) => {
           handleSubmit(e);
         }}
       >
-        {renderHeader({
-          formProps: {
-            ...formProps,
-            disabled: formProps.submitting || formProps.disabled,
-          },
-          ...layout.header,
-        })}
-        {renderBody({
-          formProps: {
-            ...formProps,
-            disabled: formProps.submitting || formProps.disabled,
-          },
-          ...layout.body,
-        })}
-        {renderFooter({
-          formProps: {
-            ...formProps,
-            disabled: formProps.submitting || formProps.disabled,
-          },
-          ...layout.footer,
-        })}
+        {layout.header &&
+          renderHeader({
+            formProps: {
+              ...formProps,
+              disabled: formProps.submitting || formProps.disabled,
+            },
+            ...layout.header,
+          })}
+        {layout.body &&
+          renderBody({
+            formProps: {
+              ...formProps,
+              disabled: formProps.submitting || formProps.disabled,
+            },
+            ...layout.body,
+          })}
+        {layout.footer &&
+          renderFooter({
+            formProps: {
+              ...formProps,
+              disabled: formProps.submitting || formProps.disabled,
+            },
+            ...layout.footer,
+          })}
       </SuiForm>
     );
   };
@@ -295,6 +304,9 @@ const useReduxForm = memoize(({ layout, config }) => {
     autoComplete: 'off',
     size: 'large',
     formProps: {},
+    style: null,
+    css: null,
+    className: '',
   };
   form.propTypes = {
     /* redux-form */
@@ -302,8 +314,11 @@ const useReduxForm = memoize(({ layout, config }) => {
     /* direct */
     autoComplete: PropTypes.string,
     size: PropTypes.string,
-    /* props for SuiForm */
-    formProps: PropTypes.object, // eslint-disable-line
+    // eslint-disable-next-line
+    formProps: PropTypes.object, // * props for SuiForm
+    style: PropTypes.object, // eslint-disable-line
+    css: PropTypes.object, // eslint-disable-line
+    className: PropTypes.string,
   };
 
   return reduxForm(config)(form);
@@ -313,4 +328,6 @@ export { default as Input } from './components/Input';
 export { default as Select } from './components/Select';
 export { default as SelectGroup } from './components/SelectGroup';
 export { default as DatePicker } from './components/DatePicker';
+export { default as Search } from './components/Search';
+export { default as FileInput } from './components/FileInput';
 export default useReduxForm;

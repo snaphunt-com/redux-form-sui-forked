@@ -1,11 +1,7 @@
 const es = process.env.BABEL_ENV === 'es';
 
 module.exports = {
-  presets: [
-    ['@babel/env', { modules: false }],
-    '@babel/preset-react',
-    '@emotion/babel-preset-css-prop',
-  ],
+  presets: [['@babel/env', { modules: false }], '@babel/preset-react'],
   plugins: [
     // Stage 0
     // '@babel/plugin-proposal-function-bind',

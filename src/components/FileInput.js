@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import { useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -29,7 +31,7 @@ const FileInput = ({
       disabled={disabled}
       width={colspan}
     >
-      <label htmlFor={id || name} style={{ whiteSpace: 'pre' }}>
+      <label htmlFor={id || name} css={{ whiteSpace: 'pre', color: 'red' }}>
         {label}
       </label>
       <input

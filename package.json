@@ -1,6 +1,6 @@
 {
   "name": "redux-form-sui",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "A redux-form friendly semantic-ui component library",
   "main": "build/lib/index.js",
   "module": "build/es/index.js",

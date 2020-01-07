@@ -249,14 +249,12 @@ const useReduxForm = memoize(({ layout, config }) => {
     autoComplete,
     formProps: suiFormProps,
     style,
-    css,
     className,
     ...formProps
   }) => {
     return (
       <SuiForm
         {...suiFormProps}
-        css={css}
         style={style}
         className={className}
         autoComplete={autoComplete}
@@ -305,7 +303,6 @@ const useReduxForm = memoize(({ layout, config }) => {
     size: 'large',
     formProps: {},
     style: null,
-    css: null,
     className: '',
   };
   form.propTypes = {
@@ -317,7 +314,6 @@ const useReduxForm = memoize(({ layout, config }) => {
     // eslint-disable-next-line
     formProps: PropTypes.object, // * props for SuiForm
     style: PropTypes.object, // eslint-disable-line
-    css: PropTypes.object, // eslint-disable-line
     className: PropTypes.string,
   };
 

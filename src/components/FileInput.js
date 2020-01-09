@@ -38,23 +38,30 @@ const FileInput = ({
         ref={fileInputRef}
         type="file"
         accept={accept}
-        onChange={e => onChange(e.target.files?.[0])}
+        onChange={e => {
+          if (e.target.files?.[0]) {
+            onChange(e.target.files?.[0]);
+          }
+          // * send undefined to keep existing value in redux-form
+          onBlur();
+        }}
         css={{ display: 'none' }}
       />
       <SuiPopup
         trigger={
-          <SuiInput
-            {...inputProps}
-            id={id || name}
-            value={file?.name}
-            // * send undefined to keep existing value in redux-form
-            onFocus={() => onFocus()}
-            onBlur={() => onBlur()}
-            disabled={disabled}
-            onClick={() => fileInputRef.current.click()}
-            // FIXME Why this mess up error tooltip
-            // css={{ '& > input': { cursor: 'pointer' } }}
-          />
+          // ? This wrapper is necessary for 'poppper' to work with '@emotion/core'
+          <div>
+            <SuiInput
+              {...inputProps}
+              id={id || name}
+              value={file?.name}
+              disabled={disabled}
+              css={{ '& > input': { cursor: 'pointer' } }}
+              // * send undefined to keep existing value in redux-form
+              onFocus={() => onFocus()}
+              onClick={() => fileInputRef.current.click()}
+            />
+          </div>
         }
         content={error}
         style={{ opacity: !active && touched && !!error ? 0.7 : 0 }}

@@ -34,10 +34,9 @@ import { findByProp } from 'kickass-utilities';
 // };
 
 const Search = ({
-  input: { value, onFocus, onChange, onBlur },
+  // TODO Do this for other controls too: no need id, input.name should be unique
+  input: { name, value, onFocus, onChange, onBlur },
   meta: { touched, error, active },
-  id,
-  name,
   label,
   required,
   disabled,
@@ -75,14 +74,14 @@ const Search = ({
       disabled={disabled}
       width={colspan}
     >
-      <label htmlFor={id || name} style={{ whiteSpace: 'pre' }}>
+      <label htmlFor={name} style={{ whiteSpace: 'pre' }}>
         {label}
       </label>
       <SuiPopup
         trigger={
           <SuiSearch
             {...searchProps}
-            id={id || name}
+              id={name}
             loading={loading}
             value={value?.search}
             results={value?.found}
@@ -120,7 +119,6 @@ const Search = ({
 };
 
 Search.defaultProps = {
-  id: '',
   label: '',
   disabled: false,
   readonly: false,
@@ -131,7 +129,6 @@ Search.defaultProps = {
 
 Search.propTypes = {
   ...fieldPropTypes,
-  id: PropTypes.string,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   disabled: PropTypes.bool,

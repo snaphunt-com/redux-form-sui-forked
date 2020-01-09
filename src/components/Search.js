@@ -1,4 +1,6 @@
-import { useState, useRef, useCallback } from 'react';
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
   Form as SuiForm,
@@ -8,6 +10,7 @@ import {
 import { Field, fieldPropTypes } from 'redux-form';
 import debounce from 'lodash/debounce';
 import { findByProp } from 'kickass-utilities';
+import * as R from 'ramda';
 
 // const renderView = () => {
 //   const {
@@ -43,29 +46,53 @@ const Search = ({
   readonly,
   colspan,
   searchProps,
+  resultsPanel,
   search,
-  autoSearch,
-  searchDelay,
+  filter,
+  autoTrigger,
+  triggerDelay,
   onSelect,
 }) => {
   const [loading, setLoading] = useState(null);
 
-  const debouncedSearch = useCallback(
+  const allResultsRef = useRef([]);
+
+  const debouncedTrigger = useCallback(
     debounce(async v => {
-      setLoading(true);
-      const found = await search(v?.search);
-      onChange({ ...v, found });
-      setLoading(false);
-    }, searchDelay),
-    [search, searchDelay],
+      if (filter) {
+        if (!v?.search) {
+          // * Find all results
+          setLoading(true);
+          const found = await search(v?.search);
+          allResultsRef.current = found;
+          onChange({ ...v, found });
+          setLoading(false);
+        } else {
+          const found = R.filter(filter(v?.search))(allResultsRef.current);
+          onChange({ ...v, found });
+        }
+      } else {
+        if (!v?.search) {
+          // ? If user ever needs to find all results,
+          // ? then they should provide 'filter' for performance purposes.
+          return;
+        }
+        setLoading(true);
+        const found = await search(v?.search);
+        onChange({ ...v, found });
+        setLoading(false);
+      }
+    }, triggerDelay),
+    [search, triggerDelay],
   );
-  // const dsRef = useRef(debouncedSearch);
-  // console.log(
-  //   '%csame',
-  //   'font-size: 12px; color: #D6BF32',
-  //   dsRef.current === debouncedSearch,
-  // );
-  // dsRef.current = debouncedSearch;
+
+  useEffect(() => {
+    if (filter) {
+      // * Pre-fill all results for filtering
+      debouncedTrigger({ search: '' });
+      debouncedTrigger.flush();
+    }
+  }, []);
 
   return readonly ? null : (
     <SuiForm.Field
@@ -79,36 +106,47 @@ const Search = ({
       </label>
       <SuiPopup
         trigger={
-          <SuiSearch
-            {...searchProps}
+          // ? This wrapper is necessary for 'poppper' to work with '@emotion/core'
+          <div>
+            <SuiSearch
+              {...searchProps}
+              // * Enable seeing all results for filter mode
+              {...(filter && { minCharacters: 0 })}
+              css={{
+                '&.ui.search > .results': {
+                  ...resultsPanel,
+                  overflow: 'auto',
+                },
+              }}
               id={name}
-            loading={loading}
-            value={value?.search}
-            results={value?.found}
-            onResultSelect={(_, { result }) => onSelect?.(result)}
-            onFocus={() => onFocus(value)}
-            onSearchChange={(_, { value: searchValue }) => {
-              if (loading) {
-                return;
-              }
-              onChange({ ...value, search: searchValue });
-              if (autoSearch && searchValue) {
-                debouncedSearch({ ...value, search: searchValue });
-              }
-            }}
-            onBlur={() => onBlur(value)}
-            onKeyPress={e => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-              }
-            }}
-            onKeyUp={e => {
-              if (e.key === 'Enter') {
-                debouncedSearch(value);
-                debouncedSearch.flush();
-              }
-            }}
-          />
+              loading={loading}
+              value={value?.search}
+              results={value?.found}
+              onResultSelect={(_, { result }) => onSelect?.(result)}
+              onFocus={() => onFocus(value)}
+              onSearchChange={(_, { value: searchValue }) => {
+                if (loading) {
+                  return;
+                }
+                onChange({ ...value, search: searchValue });
+                if (autoTrigger) {
+                  debouncedTrigger({ ...value, search: searchValue });
+                }
+              }}
+              onBlur={() => onBlur(value)}
+              onKeyPress={e => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                }
+              }}
+              onKeyUp={e => {
+                if (e.key === 'Enter') {
+                  debouncedTrigger(value);
+                  debouncedTrigger.flush();
+                }
+              }}
+            />
+          </div>
         }
         content={error}
         style={{ opacity: !active && touched && !!error ? 0.7 : 0 }}
@@ -123,8 +161,13 @@ Search.defaultProps = {
   disabled: false,
   readonly: false,
   searchProps: {},
-  autoSearch: false,
-  searchDelay: 500,
+  resultsPanel: {
+    width: 'auto',
+    maxHeight: 200,
+  },
+  filter: null,
+  autoTrigger: true,
+  triggerDelay: 500,
 };
 
 Search.propTypes = {
@@ -135,11 +178,17 @@ Search.propTypes = {
   readonly: PropTypes.bool,
   searchProps: PropTypes.shape({
     placeholder: PropTypes.string,
+    noResultsMessage: PropTypes.string,
     size: PropTypes.string,
   }),
+  resultsPanel: PropTypes.shape({
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    maxHeight: PropTypes.number,
+  }),
   search: PropTypes.func.isRequired,
-  autoSearch: PropTypes.bool,
-  searchDelay: PropTypes.number,
+  filter: PropTypes.func, // * For local filtering if any
+  autoTrigger: PropTypes.bool,
+  triggerDelay: PropTypes.number,
   onSelect: PropTypes.func.isRequired,
 };
 

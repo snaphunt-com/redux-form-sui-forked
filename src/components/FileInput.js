@@ -18,6 +18,7 @@ const FileInput = ({
   required,
   disabled,
   readonly,
+  size,
   colspan,
   inputProps,
   accept,
@@ -56,6 +57,7 @@ const FileInput = ({
               id={id || name}
               value={file?.name}
               disabled={disabled}
+              size={size}
               css={{ '& > input': { cursor: 'pointer' } }}
               // * send undefined to keep existing value in redux-form
               onFocus={() => onFocus()}
@@ -76,6 +78,7 @@ FileInput.defaultProps = {
   label: '',
   disabled: false,
   readonly: false,
+  size: null,
   inputProps: {},
   accept:
     'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf,.doc,.docx,.xml,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -88,9 +91,9 @@ FileInput.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
+  size: PropTypes.string,
   inputProps: PropTypes.shape({
     placeholder: PropTypes.string,
-    size: PropTypes.string,
   }),
   accept: PropTypes.string,
 };

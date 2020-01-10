@@ -91,6 +91,7 @@ Input.defaultProps = {
   label: '',
   disabled: false,
   readonly: false,
+  size: null, // ? no supply means 'medium' in semantic-ui
   inputProps: {},
 };
 
@@ -100,9 +101,9 @@ Input.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
+  size: PropTypes.string,
   inputProps: PropTypes.shape({
     placeholder: PropTypes.string,
-    size: PropTypes.string,
   }),
 };
 

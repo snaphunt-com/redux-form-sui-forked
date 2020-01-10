@@ -116,6 +116,7 @@ SelectGroup.defaultProps = {
   label: '',
   disabled: false,
   readonly: false,
+  size: null,
 };
 
 SelectGroup.propTypes = {
@@ -124,7 +125,7 @@ SelectGroup.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
-  size: PropTypes.string.isRequired,
+  size: PropTypes.string,
 };
 
 export default SelectGroup;

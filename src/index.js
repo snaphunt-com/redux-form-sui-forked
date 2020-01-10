@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { FormSection, reduxForm } from 'redux-form';
 import { Form as SuiForm } from 'semantic-ui-react';
 import memoize from 'fast-memoize';
+import * as R from 'ramda';
 
 const useReduxForm = memoize(({ layout, config }) => {
   if (!layout || !config) {
@@ -83,7 +84,7 @@ const useReduxForm = memoize(({ layout, config }) => {
                 readonly: formProps.readonly,
                 size: formProps.size,
                 ...controlProps,
-                formProps,
+                formProps: R.omit(['disabled', 'readonly', 'size'])(formProps),
               });
             }
             if (render) {
@@ -101,7 +102,9 @@ const useReduxForm = memoize(({ layout, config }) => {
                   readonly: formProps.readonly,
                   size: formProps.size,
                   ...controlProps,
-                  formProps,
+                  formProps: R.omit(['disabled', 'readonly', 'size'])(
+                    formProps,
+                  ),
                 })
                 // </div>
               );

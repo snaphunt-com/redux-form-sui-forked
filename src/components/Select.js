@@ -94,6 +94,7 @@ const Select = ({ name, ...props }) => {
                   // * send undefined to keep existing value in redux-form
                   onBlur={() => onBlur()}
                   selection
+                  search // ? size only takes effect when this is supplied
                   disabled={disabled}
                   className={size}
                 />
@@ -119,6 +120,7 @@ Select.defaultProps = {
   label: '',
   disabled: false,
   readonly: false,
+  size: null,
 };
 
 Select.propTypes = {
@@ -127,7 +129,7 @@ Select.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
-  size: PropTypes.string.isRequired,
+  size: PropTypes.string,
 };
 
 export default Select;

@@ -44,6 +44,7 @@ const Search = ({
   required,
   disabled,
   readonly,
+  size,
   colspan,
   searchProps,
   resultsPanel,
@@ -120,6 +121,7 @@ const Search = ({
               }}
               id={name}
               loading={loading}
+              size={size}
               value={value?.search}
               results={value?.found}
               onResultSelect={(_, { result }) => onSelect?.(result)}
@@ -160,6 +162,7 @@ Search.defaultProps = {
   label: '',
   disabled: false,
   readonly: false,
+  size: null,
   searchProps: {},
   resultsPanel: {
     width: 'auto',
@@ -176,10 +179,10 @@ Search.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
+  size: PropTypes.string,
   searchProps: PropTypes.shape({
     placeholder: PropTypes.string,
     noResultsMessage: PropTypes.string,
-    size: PropTypes.string,
   }),
   resultsPanel: PropTypes.shape({
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

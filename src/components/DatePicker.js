@@ -153,6 +153,7 @@ DatePicker.defaultProps = {
   label: '',
   disabled: false,
   readonly: false,
+  size: null,
 };
 
 DatePicker.propTypes = {
@@ -161,7 +162,7 @@ DatePicker.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
-  size: PropTypes.string.isRequired,
+  size: PropTypes.string,
 };
 
 export default DatePicker;

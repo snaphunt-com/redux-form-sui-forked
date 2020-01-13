@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -6,6 +8,7 @@ import {
   Popup as SuiPopup,
 } from 'semantic-ui-react';
 import { Field } from 'redux-form';
+import { isSafari } from '../utils/deviceDetect';
 
 const Input = ({ name, ...props }) => {
   const render = useCallback(
@@ -31,6 +34,13 @@ const Input = ({ name, ...props }) => {
               value={value}
               readonly={readonly}
               size={size}
+              {...(isSafari() && {
+                css: {
+                  '.ui.form .fields .field &.ui.input input, .ui.form .field &.ui.input input': {
+                    width: '100%',
+                  },
+                },
+              })}
             />
           </SuiForm.Field>
         );
@@ -68,6 +78,13 @@ const Input = ({ name, ...props }) => {
                   id={id || name}
                   disabled={disabled}
                   size={size}
+                  {...(isSafari() && {
+                    css: {
+                      '.ui.form .fields .field &.ui.input input, .ui.form .field &.ui.input input': {
+                        width: '100%',
+                      },
+                    },
+                  })}
                 />
               }
               content={error}

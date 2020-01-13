@@ -98,7 +98,8 @@
     "kickass-utilities": "^0.1.0",
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
-    "ramda": "^0.26.1"
+    "ramda": "^0.26.1",
+    "ua-parser-js": "^0.7.21"
   },
   "peerDependencies": {
     "react": "^16.9.0",

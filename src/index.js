@@ -324,9 +324,11 @@ const useReduxForm = memoize(({ layout, config }) => {
 });
 
 export { default as Input } from './components/Input';
+export { default as Password } from './components/Password';
 export { default as Select } from './components/Select';
 export { default as SelectGroup } from './components/SelectGroup';
 export { default as DatePicker } from './components/DatePicker';
+export { default as Mobile } from './components/Mobile';
 export { default as Search } from './components/Search';
 export { default as FileInput } from './components/FileInput';
 export default useReduxForm;

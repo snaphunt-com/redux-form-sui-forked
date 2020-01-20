@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import {
   Form as SuiForm,
   Input as SuiInput,
+  Icon as SuiIcon,
   Popup as SuiPopup,
 } from 'semantic-ui-react';
 import { Field } from 'redux-form';
-import { isSafari } from '../utils/deviceDetect';
 
 const Input = ({ name, ...props }) => {
   const render = useCallback(
@@ -19,6 +19,8 @@ const Input = ({ name, ...props }) => {
           id,
           label,
           hidden,
+          icon,
+          iconPosition,
           colspan,
           inputProps,
         } = fieldProps;
@@ -29,19 +31,22 @@ const Input = ({ name, ...props }) => {
               {label}
             </label>
             <SuiInput
-              {...inputProps}
               id={id || name}
               value={value}
               readonly={readonly}
               size={size}
-              {...(isSafari() && {
-                css: {
-                  '.ui.form .fields .field &.ui.input input, .ui.form .field &.ui.input input': {
-                    width: '100%',
-                  },
+              icon={!!icon}
+              iconPosition={iconPosition}
+              css={{
+                '.ui.form .fields .field &.ui.input input, .ui.form .field &.ui.input input': {
+                  width: '100%',
                 },
-              })}
-            />
+              }}
+            >
+              {icon && iconPosition === 'left' && <SuiIcon {...icon} />}
+              <input {...inputProps} />
+              {icon && iconPosition === 'right' && <SuiIcon {...icon} />}
+            </SuiInput>
           </SuiForm.Field>
         );
       };
@@ -55,6 +60,8 @@ const Input = ({ name, ...props }) => {
           required,
           disabled,
           hidden,
+          icon,
+          iconPosition,
           colspan,
           inputProps,
         } = fieldProps;
@@ -72,20 +79,25 @@ const Input = ({ name, ...props }) => {
             </label>
             <SuiPopup
               trigger={
-                <SuiInput
-                  {...inputProps}
-                  {...input}
-                  id={id || name}
-                  disabled={disabled}
-                  size={size}
-                  {...(isSafari() && {
-                    css: {
+                // ? This wrapper is necessary for 'poppper' to work with '@emotion/core'
+                <div>
+                  <SuiInput
+                    id={id || name}
+                    disabled={disabled}
+                    size={size}
+                    icon={!!icon}
+                    iconPosition={iconPosition}
+                    css={{
                       '.ui.form .fields .field &.ui.input input, .ui.form .field &.ui.input input': {
                         width: '100%',
                       },
-                    },
-                  })}
-                />
+                    }}
+                  >
+                    {icon && iconPosition === 'left' && <SuiIcon {...icon} />}
+                    <input {...inputProps} {...input} />
+                    {icon && iconPosition === 'right' && <SuiIcon {...icon} />}
+                  </SuiInput>
+                </div>
               }
               content={error}
               style={{ opacity: !active && touched && !!error ? 0.7 : 0 }}
@@ -109,6 +121,8 @@ Input.defaultProps = {
   disabled: false,
   readonly: false,
   size: null, // ? no supply means 'medium' in semantic-ui
+  icon: null,
+  iconPosition: 'left',
   inputProps: {},
 };
 
@@ -119,6 +133,8 @@ Input.propTypes = {
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   size: PropTypes.string,
+  icon: PropTypes.shape({ className: PropTypes.string }),
+  iconPosition: PropTypes.oneOf[('left', 'right')],
   inputProps: PropTypes.shape({
     placeholder: PropTypes.string,
   }),

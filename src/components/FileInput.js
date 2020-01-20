@@ -5,20 +5,21 @@ import PropTypes from 'prop-types';
 import {
   Form as SuiForm,
   Input as SuiInput,
+  Icon as SuiIcon,
   Popup as SuiPopup,
 } from 'semantic-ui-react';
 import { Field, fieldPropTypes } from 'redux-form';
 
 const FileInput = ({
-  input: { value: file, onFocus, onChange, onBlur },
+  input: { name, value: file, onFocus, onChange, onBlur },
   meta: { touched, error, active },
-  id,
-  name,
   label,
   required,
   disabled,
   readonly,
   size,
+  icon,
+  iconPosition,
   colspan,
   inputProps,
   accept,
@@ -32,7 +33,7 @@ const FileInput = ({
       disabled={disabled}
       width={colspan}
     >
-      <label htmlFor={id || name} css={{ whiteSpace: 'pre', color: 'red' }}>
+      <label htmlFor={name} css={{ whiteSpace: 'pre', color: 'red' }}>
         {label}
       </label>
       <input
@@ -53,16 +54,31 @@ const FileInput = ({
           // ? This wrapper is necessary for 'poppper' to work with '@emotion/core'
           <div>
             <SuiInput
-              {...inputProps}
-              id={id || name}
-              value={file?.name}
+              id={name}
               disabled={disabled}
               size={size}
-              css={{ '& > input': { cursor: 'pointer' } }}
-              // * send undefined to keep existing value in redux-form
-              onFocus={() => onFocus()}
-              onClick={() => fileInputRef.current.click()}
-            />
+              icon={!!icon}
+              iconPosition={iconPosition}
+              css={{
+                '.ui.form .fields .field &.ui.input input, .ui.form .field &.ui.input input': {
+                  width: '100%',
+                },
+                '& > input': { cursor: 'pointer' },
+              }}
+            >
+              {icon && iconPosition === 'left' && <SuiIcon {...icon} />}
+              <input
+                {...inputProps}
+                // * This is not a typo. It is DOM-related props
+                // * https://reactjs.org/docs/dom-elements.html
+                readOnly
+                value={file?.name}
+                // ? send undefined to keep existing value in redux-form
+                onFocus={() => onFocus()}
+                onClick={() => fileInputRef.current.click()}
+              />
+              {icon && iconPosition === 'right' && <SuiIcon {...icon} />}
+            </SuiInput>
           </div>
         }
         content={error}
@@ -74,11 +90,12 @@ const FileInput = ({
 };
 
 FileInput.defaultProps = {
-  id: '',
   label: '',
   disabled: false,
   readonly: false,
   size: null,
+  icon: null,
+  iconPosition: 'left',
   inputProps: {},
   accept:
     'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf,.doc,.docx,.xml,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -86,12 +103,13 @@ FileInput.defaultProps = {
 
 FileInput.propTypes = {
   ...fieldPropTypes,
-  id: PropTypes.string,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   size: PropTypes.string,
+  icon: PropTypes.shape({ className: PropTypes.string }),
+  iconPosition: PropTypes.oneOf[('left', 'right')],
   inputProps: PropTypes.shape({
     placeholder: PropTypes.string,
   }),

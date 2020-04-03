@@ -6,6 +6,7 @@ import {
   Popup as SuiPopup,
 } from 'semantic-ui-react';
 import { Field } from 'redux-form';
+import * as R from 'ramda';
 
 import './Select.scss';
 
@@ -65,7 +66,7 @@ const Select = ({ name, ...props }) => {
           dropdownProps,
         } = fieldProps;
 
-        if (!options?.length) {
+        if (!R.is(Array, options)) {
           throw new Error(
             `Field ${name}. Expected options as an array but found: ${options}`,
           );

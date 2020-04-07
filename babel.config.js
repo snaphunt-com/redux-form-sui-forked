@@ -31,7 +31,7 @@ module.exports = {
       webpack will handle the syntax.
     */
     '@babel/plugin-syntax-dynamic-import',
-    ['@babel/transform-runtime', { useESModules: es }],
+    ['@babel/plugin-transform-runtime', { useESModules: es }],
     'react-require',
 
     ...(es ? [] : ['@babel/transform-modules-commonjs', 'dynamic-import-node']),

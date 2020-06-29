@@ -10,7 +10,7 @@ import {
 } from 'semantic-ui-react';
 import { Field, fieldPropTypes } from 'redux-form';
 
-const FileInput = ({
+const FileInputButton = ({
   input: { name, value: file, onFocus, onChange, onBlur },
   meta: { touched, error, active },
   label,
@@ -22,6 +22,7 @@ const FileInput = ({
   iconPosition,
   colspan,
   inputProps,
+  buttonProps,
   accept,
 }) => {
   const fileInputRef = useRef(null);
@@ -38,6 +39,38 @@ const FileInput = ({
           {label}
         </label>
       )}
+      <SuiPopup
+        trigger={
+          // ? This wrapper is necessary for 'poppper' to work with '@emotion/core'
+          <div>
+            <SuiInput
+              readOnly
+              id={name}
+              size={size}
+              action={{
+                onClick: () => {
+                  if (file) {
+                    onChange(null);
+                  } else {
+                    fileInputRef.current.click();
+                  }
+                },
+                ...(!file && buttonProps),
+                ...(file && {
+                  content: 'Delete',
+                  color: 'red',
+                }),
+              }}
+              onFocus={() => onFocus()}
+              value={file?.name || ''}
+            />
+          </div>
+        }
+        content={error}
+        style={{ opacity: !active && touched && !!error ? 0.7 : 0 }}
+        inverted
+      />
+
       <input
         ref={fileInputRef}
         type="file"
@@ -51,53 +84,19 @@ const FileInput = ({
         onChange={e => {
           if (e.target.files?.[0]) {
             onChange(e.target.files?.[0]);
+          } else {
+            onChange(null);
           }
           // * send undefined to keep existing value in redux-form
           onBlur();
         }}
         css={{ display: 'none' }}
       />
-      <SuiPopup
-        trigger={
-          // ? This wrapper is necessary for 'poppper' to work with '@emotion/core'
-          <div>
-            <SuiInput
-              id={name}
-              size={size}
-              icon={!!icon}
-              iconPosition={icon && iconPosition}
-              css={{
-                '.ui.form .fields .field &.ui.input input, .ui.form .field &.ui.input input': {
-                  width: '100%',
-                },
-                '& > input': { cursor: 'pointer' },
-              }}
-            >
-              {icon && iconPosition === 'left' && <SuiIcon {...icon} />}
-              <input
-                {...inputProps}
-                // * This is not a typo. It is DOM-related props
-                // * https://reactjs.org/docs/dom-elements.html
-                readOnly
-                // * Default to empty string to ensure always in controlled mode
-                value={file?.name || ''}
-                // ? send undefined to keep existing value in redux-form
-                onFocus={() => onFocus()}
-                onClick={() => fileInputRef.current.click()}
-              />
-              {icon && iconPosition === 'right' && <SuiIcon {...icon} />}
-            </SuiInput>
-          </div>
-        }
-        content={error}
-        style={{ opacity: !active && touched && !!error ? 0.7 : 0 }}
-        inverted
-      />
     </SuiForm.Field>
   );
 };
 
-FileInput.defaultProps = {
+FileInputButton.defaultProps = {
   label: '',
   disabled: false,
   readonly: false,
@@ -109,7 +108,7 @@ FileInput.defaultProps = {
     'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf,.doc,.docx,.xml,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 };
 
-FileInput.propTypes = {
+FileInputButton.propTypes = {
   ...fieldPropTypes,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
@@ -124,4 +123,4 @@ FileInput.propTypes = {
   accept: PropTypes.string,
 };
 
-export default props => <Field {...props} component={FileInput} />;
+export default props => <Field {...props} component={FileInputButton} />;

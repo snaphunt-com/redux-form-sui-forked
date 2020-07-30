@@ -68,6 +68,7 @@ const SelectGroup = ({ name, ...props }) => {
           compact,
           required,
           disabled,
+          popupProps,
         } = fieldProps;
 
         if (!options?.length) {
@@ -89,6 +90,7 @@ const SelectGroup = ({ name, ...props }) => {
               </label>
             )}
             <SuiPopup
+              {...popupProps}
               trigger={
                 <SuiButton.Group toggle fluid compact={compact} size={size}>
                   {options.map(({ key, value, text }) => (
@@ -125,6 +127,7 @@ SelectGroup.defaultProps = {
   disabled: false,
   readonly: false,
   size: null,
+  popupProps: {},
 };
 
 SelectGroup.propTypes = {
@@ -134,6 +137,9 @@ SelectGroup.propTypes = {
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   size: PropTypes.string,
+  popupProps: PropTypes.shape({
+    size: PropTypes.string,
+  }),
 };
 
 export default SelectGroup;

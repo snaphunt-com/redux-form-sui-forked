@@ -15,6 +15,7 @@ const ImageEditor = ({
   disabled,
   readonly,
   colspan,
+  popupProps,
 }) =>
   readonly ? null : (
     <SuiForm.Field
@@ -29,6 +30,7 @@ const ImageEditor = ({
         </label>
       )}
       <SuiPopup
+        {...popupProps}
         trigger={
           // ? This wrapper is necessary for 'poppper' to work with '@emotion/core'
           <div>
@@ -59,6 +61,7 @@ ImageEditor.defaultProps = {
   outputFormat: 'base64',
   disabled: false,
   readonly: false,
+  popupProps: {},
 };
 
 ImageEditor.propTypes = {
@@ -79,6 +82,9 @@ ImageEditor.propTypes = {
   outputFormat: PropTypes.oneOf(['file', 'base64']),
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
+  popupProps: PropTypes.shape({
+    size: PropTypes.string,
+  }),
 };
 
-export default (props) => <Field {...props} component={ImageEditor} />;
+export default props => <Field {...props} component={ImageEditor} />;

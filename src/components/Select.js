@@ -4,6 +4,7 @@ import {
   Form as SuiForm,
   Dropdown as SuiDropdown,
   Popup as SuiPopup,
+  Header as SuiHeader,
 } from 'semantic-ui-react';
 import { Field } from 'redux-form';
 import * as R from 'ramda';
@@ -20,8 +21,11 @@ const Select = ({ name, ...props }) => {
           },
           id,
           label,
+          sublabel,
+          hidden,
           colspan,
           dropdownProps,
+          sublabelProps,
         } = fieldProps;
 
         if (!options?.length) {
@@ -31,11 +35,29 @@ const Select = ({ name, ...props }) => {
         }
 
         return (
-          <SuiForm.Field width={colspan}>
+          <SuiForm.Field
+            width={colspan}
+            // ! TODO: add animation so the form doesn't jump when showing and hiding component
+            style={{ display: hidden ? 'none' : 'initial' }}
+          >
             {label && (
               <label htmlFor={id || name} style={{ whiteSpace: 'pre' }}>
                 {label}
               </label>
+            )}
+            {sublabel && (
+              <SuiHeader
+                {...sublabelProps}
+                subheader={sublabel}
+                size={size}
+                css={{
+                  '&.ui.header': { margin: '0px 0px 5px 0px' },
+                  '&.ui.header .sub.header': {
+                    color: sublabelProps?.color,
+                    fontSize: sublabelProps?.fontSize,
+                  },
+                }}
+              />
             )}
             <SuiDropdown
               {...dropdownProps}
@@ -62,10 +84,14 @@ const Select = ({ name, ...props }) => {
           meta: { touched, error, active },
           id,
           label,
+          sublabel,
           required,
           disabled,
+          hidden,
           colspan,
           dropdownProps,
+          sublabelProps,
+          popupProps,
         } = fieldProps;
 
         if (!R.is(Array, options)) {
@@ -80,13 +106,30 @@ const Select = ({ name, ...props }) => {
             required={required}
             disabled={disabled}
             width={colspan}
+            // ! TODO: add animation so the form doesn't jump when showing and hiding component
+            style={{ display: hidden ? 'none' : 'initial' }}
           >
             {label && (
               <label htmlFor={id || name} style={{ whiteSpace: 'pre' }}>
                 {label}
               </label>
             )}
+            {sublabel && (
+              <SuiHeader
+                {...sublabelProps}
+                subheader={sublabel}
+                size={size}
+                css={{
+                  '&.ui.header': { margin: '0px 0px 5px 0px' },
+                  '&.ui.header .sub.header': {
+                    color: sublabelProps?.color,
+                    fontSize: sublabelProps?.fontSize,
+                  },
+                }}
+              />
+            )}
             <SuiPopup
+              {...popupProps}
               trigger={
                 <SuiDropdown
                   {...dropdownProps}
@@ -127,6 +170,10 @@ Select.defaultProps = {
   disabled: false,
   readonly: false,
   size: null,
+  popupProps: {},
+  sublabelProps: {},
+  sublabel: null,
+  hidden: false,
 };
 
 Select.propTypes = {
@@ -136,6 +183,15 @@ Select.propTypes = {
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   size: PropTypes.string,
+  popupProps: PropTypes.shape({
+    size: PropTypes.string,
+  }),
+  sublabel: PropTypes.string,
+  hidden: PropTypes.bool,
+  sublabelProps: PropTypes.shape({
+    fontSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    color: PropTypes.string,
+  }),
 };
 
 export default Select;

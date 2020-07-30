@@ -7,6 +7,7 @@ import {
   Input as SuiInput,
   Icon as SuiIcon,
   Popup as SuiPopup,
+  Header as SuiHeader,
 } from 'semantic-ui-react';
 import { Field } from 'redux-form';
 
@@ -18,22 +19,39 @@ const Input = ({ name, ...props }) => {
           input: { value },
           id,
           label,
+          sublabel,
           hidden,
           icon,
           iconPosition,
           colspan,
           inputProps,
+          sublabelProps,
         } = fieldProps;
 
         return (
           <SuiForm.Field
             width={colspan}
-            style={{ visibility: hidden ? 'hidden' : 'visible' }}
+            // ! TODO: add animation so the form doesn't jump when showing and hiding component
+            style={{ display: hidden ? 'none' : 'initial' }}
           >
             {label && (
               <label htmlFor={id || name} style={{ whiteSpace: 'pre' }}>
                 {label}
               </label>
+            )}
+            {sublabel && (
+              <SuiHeader
+                {...sublabelProps}
+                subheader={sublabel}
+                size={size}
+                css={{
+                  '&.ui.header': { margin: '0px 0px 5px 0px' },
+                  '&.ui.header .sub.header': {
+                    color: sublabelProps?.color,
+                    fontSize: sublabelProps?.fontSize,
+                  },
+                }}
+              />
             )}
             <SuiInput
               id={id || name}
@@ -63,6 +81,7 @@ const Input = ({ name, ...props }) => {
           meta: { touched, error, active },
           id,
           label,
+          sublabel,
           required,
           disabled,
           hidden,
@@ -70,6 +89,8 @@ const Input = ({ name, ...props }) => {
           iconPosition,
           colspan,
           inputProps,
+          popupProps,
+          sublabelProps,
         } = fieldProps;
 
         return (
@@ -78,14 +99,30 @@ const Input = ({ name, ...props }) => {
             required={required}
             disabled={disabled}
             width={colspan}
-            style={{ visibility: hidden ? 'hidden' : 'visible' }}
+            // ! TODO: add animation so the form doesn't jump when showing and hiding component
+            style={{ display: hidden ? 'none' : 'initial' }}
           >
             {label && (
               <label htmlFor={id || name} style={{ whiteSpace: 'pre' }}>
                 {label}
               </label>
             )}
+            {sublabel && (
+              <SuiHeader
+                {...sublabelProps}
+                subheader={sublabel}
+                size={size}
+                css={{
+                  '&.ui.header': { margin: '0px 0px 5px 0px' },
+                  '&.ui.header .sub.header': {
+                    color: sublabelProps?.color,
+                    fontSize: sublabelProps?.fontSize,
+                  },
+                }}
+              />
+            )}
             <SuiPopup
+              {...popupProps}
               trigger={
                 // ? This wrapper is necessary for 'poppper' to work with '@emotion/core'
                 <div>
@@ -132,10 +169,14 @@ Input.defaultProps = {
   label: '',
   disabled: false,
   readonly: false,
+  hidden: false,
   size: null, // ? no supply means 'medium' in semantic-ui
   icon: null,
   iconPosition: 'left',
   inputProps: {},
+  popupProps: {},
+  sublabelProps: {},
+  sublabel: null,
 };
 
 Input.propTypes = {
@@ -145,10 +186,19 @@ Input.propTypes = {
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   size: PropTypes.string,
+  hidden: PropTypes.bool,
   icon: PropTypes.shape({ className: PropTypes.string }),
   iconPosition: PropTypes.oneOf[('left', 'right')],
   inputProps: PropTypes.shape({
     placeholder: PropTypes.string,
+  }),
+  popupProps: PropTypes.shape({
+    size: PropTypes.string,
+  }),
+  sublabel: PropTypes.string,
+  sublabelProps: PropTypes.shape({
+    fontSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    color: PropTypes.string,
   }),
 };
 

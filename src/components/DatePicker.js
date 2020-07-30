@@ -28,6 +28,9 @@ class CustomInput extends PureComponent {
       readonly: PropTypes.bool,
       placeholder: PropTypes.string,
       size: PropTypes.string.isRequired,
+      popupProps: PropTypes.shape({
+        size: PropTypes.string,
+      }),
     }).isRequired,
   };
 
@@ -39,10 +42,12 @@ class CustomInput extends PureComponent {
       readonly,
       placeholder,
       size,
+      popupProps,
     } = fieldProps;
 
     return (
       <SuiPopup
+        {...popupProps}
         trigger={
           <SuiInput
             fluid

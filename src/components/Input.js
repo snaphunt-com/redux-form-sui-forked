@@ -11,6 +11,13 @@ import {
 } from 'semantic-ui-react';
 import { Field } from 'redux-form';
 
+const defaultLabelStyle = {
+  fontWeight: 400,
+  fontSize: '0.85em',
+  opacity: 0.6,
+  marginTop: '1em',
+};
+
 const Input = ({ name, ...props }) => {
   const render = useCallback(
     ({ readonly, size, ...fieldProps }) => {
@@ -35,8 +42,18 @@ const Input = ({ name, ...props }) => {
             style={{ display: hidden ? 'none' : 'initial' }}
           >
             {label && (
-              <label htmlFor={id || name} style={{ whiteSpace: 'pre' }}>
-                {label}
+              <label
+                htmlFor={id || name}
+                style={{
+                  whiteSpace: 'pre',
+                  ...(typeof label === 'string' && defaultLabelStyle),
+                }}
+              >
+                {typeof label === 'string'
+                  ? label
+                  : typeof label === 'function'
+                  ? label({ style: defaultLabelStyle })
+                  : null}
               </label>
             )}
             {sublabel && (
@@ -103,8 +120,18 @@ const Input = ({ name, ...props }) => {
             style={{ display: hidden ? 'none' : 'initial' }}
           >
             {label && (
-              <label htmlFor={id || name} style={{ whiteSpace: 'pre' }}>
-                {label}
+              <label
+                htmlFor={id || name}
+                style={{
+                  whiteSpace: 'pre',
+                  ...(typeof label === 'string' && defaultLabelStyle),
+                }}
+              >
+                {typeof label === 'string'
+                  ? label
+                  : typeof label === 'function'
+                  ? label({ style: defaultLabelStyle })
+                  : null}
               </label>
             )}
             {sublabel && (
@@ -182,7 +209,7 @@ Input.defaultProps = {
 Input.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   name: PropTypes.string.isRequired,
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   size: PropTypes.string,

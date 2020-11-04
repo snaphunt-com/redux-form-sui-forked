@@ -3,6 +3,13 @@ import { Field, fieldPropTypes } from 'redux-form';
 import { Form as SuiForm, Popup as SuiPopup } from 'semantic-ui-react';
 import { ImageEditor as ShImageEditor } from 'snaphunt-ui';
 
+const defaultLabelStyle = {
+  fontWeight: 400,
+  fontSize: '0.85em',
+  opacity: 0.6,
+  marginTop: '1em',
+};
+
 const ImageEditor = ({
   input,
   meta: { touched, error, active },
@@ -25,8 +32,18 @@ const ImageEditor = ({
       width={colspan}
     >
       {label && (
-        <label htmlFor={name} style={{ whiteSpace: 'pre' }}>
-          {label}
+        <label
+          htmlFor={name}
+          style={{
+            whiteSpace: 'pre',
+            ...(typeof label === 'string' && defaultLabelStyle),
+          }}
+        >
+          {typeof label === 'string'
+            ? label
+            : typeof label === 'function'
+            ? label({ style: defaultLabelStyle })
+            : null}
         </label>
       )}
       <SuiPopup
@@ -66,7 +83,7 @@ ImageEditor.defaultProps = {
 
 ImageEditor.propTypes = {
   ...fieldPropTypes,
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   required: PropTypes.bool,
   circular: PropTypes.bool,
   deletable: PropTypes.bool,

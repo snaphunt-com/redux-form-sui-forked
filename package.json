@@ -1,6 +1,6 @@
 {
   "name": "@snaphunt/redux-form-sui",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "A redux-form friendly semantic-ui component library",
   "main": "build/lib/index.js",
   "module": "build/es/index.js",
@@ -12,7 +12,7 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/charshin/redux-form-sui"
+    "url": "https://github.com/snaphunt-com/redux-form-sui"
   },
   "scripts": {
     "build": "npm run clean && npm run build:lib && npm run build:es",
@@ -43,7 +43,7 @@
   "author": "Charlie Chau <chaunhihien@gmail.com> (http://github.com/charshin)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/charshin/redux-form-sui/issues"
+    "url": "https://github.com/snaphunt-com/redux-form-sui/issues"
   },
   "files": [
     "build"
